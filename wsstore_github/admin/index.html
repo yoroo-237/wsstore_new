@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WS Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f0f0f;--s1:#1a1a1a;--s2:#222;--s3:#2a2a2a;--bd:#2e2e2e;
+  --t1:#f0ede6;--t2:#aaa;--t3:#666;
+  --gold:#c9a84c;--gold2:#e8d08a;
+  --tg:#229ED9;--red:#e24b4a;--grn:#4caf78;--blu:#4a9eff;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh}
+
+/* LOGIN */
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem}
+.lbox{background:var(--s1);border:1px solid var(--bd);border-radius:16px;padding:2.5rem;width:100%;max-width:360px;text-align:center}
+.llogo{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--gold);margin-bottom:.3rem}
+.lsub{font-size:.8rem;color:var(--t3);margin-bottom:2rem}
+.lbox input{width:100%;background:var(--s2);border:1px solid var(--bd);color:var(--t1);font-size:.92rem;padding:11px 13px;border-radius:8px;margin-bottom:.75rem;outline:none;font-family:inherit}
+.lbox input:focus{border-color:var(--gold)}
+.lbtn{width:100%;background:var(--gold);color:#0e0e0e;font-size:.9rem;font-weight:600;padding:12px;border-radius:8px;border:none;cursor:pointer;font-family:inherit;transition:background .2s}
+.lbtn:hover{background:var(--gold2)}
+.lerr{font-size:.78rem;color:var(--red);margin-top:.6rem;min-height:1rem}
+
+/* APP */
+#app{display:none;min-height:100vh}
+.topbar{background:var(--s1);border-bottom:1px solid var(--bd);padding:0 1.5rem;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar-logo{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--gold)}
+.topbar-r{display:flex;align-items:center;gap:1rem}
+.topbar-r span{font-size:.75rem;color:var(--t3)}
+.tbtn{background:none;border:1px solid var(--bd);color:var(--t3);font-size:.75rem;padding:5px 11px;border-radius:6px;cursor:pointer;font-family:inherit;transition:.2s}
+.tbtn:hover{border-color:var(--red);color:var(--red)}
+.tlink{font-size:.75rem;color:var(--tg);text-decoration:none}
+
+.layout{display:flex;min-height:calc(100vh - 56px)}
+.sidebar{width:200px;background:var(--s1);border-right:1px solid var(--bd);padding:1.2rem 0;flex-shrink:0}
+.sitem{display:flex;align-items:center;gap:9px;padding:9px 1.3rem;font-size:.83rem;font-weight:500;color:var(--t3);cursor:pointer;transition:.15s;border-left:2px solid transparent}
+.sitem:hover{color:var(--t1);background:rgba(255,255,255,.025)}
+.sitem.on{color:var(--gold);border-left-color:var(--gold);background:rgba(201,168,76,.06)}
+.ssep{height:1px;background:var(--bd);margin:.7rem 1.3rem}
+
+.main{flex:1;padding:1.8rem;overflow-x:hidden}
+.pg{display:none}.pg.on{display:block}
+
+.pg-title{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--t1);margin-bottom:.25rem}
+.pg-sub{font-size:.8rem;color:var(--t3);margin-bottom:1.8rem}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.9rem;margin-bottom:1.8rem}
+.stat{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:1rem 1.1rem}
+.stat-l{font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:.3rem}
+.stat-v{font-size:1.5rem;font-weight:600;color:var(--t1)}
+.stat-v.g{color:var(--gold)}.stat-v.grn{color:var(--grn)}.stat-v.red{color:var(--red)}
+
+/* TABLE */
+.tw{background:var(--s1);border:1px solid var(--bd);border-radius:12px;overflow:hidden;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.83rem;min-width:560px}
+thead th{background:var(--s2);padding:9px 13px;text-align:left;font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);white-space:nowrap}
+tbody tr{border-top:1px solid var(--bd);transition:background .1s}
+tbody tr:hover{background:rgba(255,255,255,.02)}
+td{padding:10px 13px;vertical-align:middle}
+.tname{font-weight:500;color:var(--t1)}
+.tprice{color:var(--gold);font-weight:600}
+.tmute{font-size:.75rem;color:var(--t3)}
+.chip{display:inline-block;font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:20px}
+.chip-y{background:rgba(76,175,120,.14);color:var(--grn)}
+.chip-n{background:rgba(226,75,74,.13);color:var(--red)}
+.chip-new{background:rgba(201,168,76,.16);color:var(--gold)}
+.chip-hot{background:rgba(226,75,74,.14);color:var(--red)}
+.chip-sold{background:rgba(255,255,255,.08);color:var(--t3)}
+.acts{display:flex;gap:5px}
+.ab{font-size:.72rem;font-weight:500;padding:5px 11px;border-radius:6px;border:1px solid;cursor:pointer;font-family:inherit;transition:opacity .15s;background:transparent}
+.ab:hover{opacity:.72}
+.ab-e{border-color:rgba(74,158,255,.35);color:var(--blu)}
+.ab-c{border-color:rgba(201,168,76,.35);color:var(--gold)}
+.ab-d{border-color:rgba(226,75,74,.35);color:var(--red)}
+
+/* FORM */
+.fcard{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:1.6rem;margin-bottom:1.8rem}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.fg{display:flex;flex-direction:column;gap:4px}
+.fg.full{grid-column:1/-1}
+label{font-size:.7rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--t3)}
+input,select,textarea{background:var(--s2);border:1px solid var(--bd);color:var(--t1);font-size:.86rem;padding:9px 11px;border-radius:7px;outline:none;font-family:inherit;transition:border-color .15s;width:100%}
+input:focus,select:focus,textarea:focus{border-color:var(--gold)}
+textarea{resize:vertical;min-height:68px}
+select option{background:var(--s2)}
+.frow{display:flex;gap:.75rem;align-items:center;margin-top:1.1rem;flex-wrap:wrap}
+.fbtn{background:var(--gold);color:#0e0e0e;font-size:.84rem;font-weight:600;padding:10px 22px;border-radius:7px;border:none;cursor:pointer;font-family:inherit;transition:background .2s}
+.fbtn:hover{background:var(--gold2)}
+.fcancel{background:none;border:1px solid var(--bd);color:var(--t3);font-size:.84rem;padding:10px 18px;border-radius:7px;cursor:pointer;font-family:inherit;transition:.2s}
+.fcancel:hover{border-color:var(--t3)}
+.fmsg{font-size:.78rem;color:var(--grn);display:none}
+
+/* ACTIVITY */
+.alog{display:flex;flex-direction:column}
+.aitem{display:flex;align-items:flex-start;gap:11px;padding:11px 13px;border-top:1px solid var(--bd);font-size:.8rem}
+.aitem:first-child{border-top:none}
+.aico{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px}
+.ico-add{background:rgba(76,175,120,.15);color:var(--grn)}
+.ico-edit{background:rgba(74,158,255,.15);color:var(--blu)}
+.ico-del{background:rgba(226,75,74,.14);color:var(--red)}
+.ico-note{background:rgba(201,168,76,.14);color:var(--gold)}
+.adet{color:var(--t1);line-height:1.4}
+.ats{font-size:.7rem;color:var(--t3);margin-top:2px}
+
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:100;align-items:center;justify-content:center;padding:1rem}
+.overlay.open{display:flex}
+.modal{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:1.6rem;width:100%;max-width:460px;max-height:80vh;overflow-y:auto}
+.modal-title{font-size:.95rem;font-weight:600;margin-bottom:1.1rem}
+.citem{padding:9px 0;border-top:1px solid var(--bd);display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.citem:first-of-type{border-top:none}
+.ctxt{font-size:.83rem;color:var(--t1);line-height:1.45}
+.cts{font-size:.7rem;color:var(--t3);margin-top:2px}
+.cdel{background:none;border:none;color:var(--red);cursor:pointer;font-size:13px;padding:2px 5px;opacity:.55;transition:opacity .15s}
+.cdel:hover{opacity:1}
+.mfoot{display:flex;gap:.7rem;margin-top:.8rem}
+
+/* TOAST */
+#toast{position:fixed;bottom:24px;right:24px;background:var(--s1);border:1px solid var(--bd);padding:11px 18px;border-radius:9px;font-size:.83rem;color:var(--t1);z-index:200;transform:translateY(70px);opacity:0;transition:.28s;pointer-events:none}
+#toast.show{transform:translateY(0);opacity:1}
+#toast.ok{border-color:var(--grn);color:var(--grn)}
+#toast.err{border-color:var(--red);color:var(--red)}
+
+@media(max-width:700px){.sidebar{display:none}.fgrid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+  <div class="lbox">
+    <div class="llogo">WS Store</div>
+    <p class="lsub">Admin Panel</p>
+    <input type="password" id="pinput" placeholder="Enter password">
+    <button class="lbtn" onclick="doLogin()">Sign In</button>
+    <p class="lerr" id="lerr"></p>
+  </div>
+</div>
+
+<!-- APP SHELL -->
+<div id="app">
+  <div class="topbar">
+    <span class="topbar-logo">WS Admin</span>
+    <div class="topbar-r">
+      <span id="clock"></span>
+      <a href="/" target="_blank" class="tlink">← View Store</a>
+      <button class="tbtn" onclick="logout()">Logout</button>
+    </div>
+  </div>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sitem on" onclick="nav('dash')"><span>◈</span> Dashboard</div>
+      <div class="sitem" onclick="nav('products')"><span>◉</span> Products</div>
+      <div class="sitem" onclick="nav('add')"><span>＋</span> Add Product</div>
+      <div class="ssep"></div>
+      <div class="sitem" onclick="nav('log')"><span>◎</span> Activity Log</div>
+    </aside>
+    <main class="main">
+
+      <!-- DASHBOARD -->
+      <div class="pg on" id="pg-dash">
+        <p class="pg-title">Dashboard</p>
+        <p class="pg-sub">Your store overview</p>
+        <div class="stats" id="statsRow"></div>
+        <div class="tw"><table>
+          <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="dashTbl"></tbody>
+        </table></div>
+      </div>
+
+      <!-- PRODUCTS -->
+      <div class="pg" id="pg-products">
+        <p class="pg-title">All Products</p>
+        <p class="pg-sub">Manage your menu</p>
+        <div class="tw"><table>
+          <thead><tr><th>Name</th><th>Category</th><th>Price</th><th>Badge</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="prodTbl"></tbody>
+        </table></div>
+      </div>
+
+      <!-- ADD / EDIT -->
+      <div class="pg" id="pg-add">
+        <p class="pg-title" id="ftitle">Add Product</p>
+        <p class="pg-sub">Fill in the details below</p>
+        <div class="fcard">
+          <div class="fgrid">
+            <div class="fg"><label>Product Name</label><input id="fn" placeholder="e.g. Premium Pack A"></div>
+            <div class="fg"><label>Category</label><input id="fcat" placeholder="e.g. Featured, Express..."></div>
+            <div class="fg full"><label>Description</label><textarea id="fdesc" placeholder="Short description..."></textarea></div>
+            <div class="fg"><label>Price (0 = Custom)</label><input type="number" id="fprice" placeholder="e.g. 120" min="0"></div>
+            <div class="fg"><label>Currency</label>
+              <select id="fcur">
+                <option value="USD">USD — Dollar</option>
+                <option value="XAF">XAF — CFA Franc</option>
+                <option value="USDT">USDT — Tether</option>
+                <option value="EUR">EUR — Euro</option>
+                <option value="GBP">GBP — Pound</option>
+              </select>
+            </div>
+            <div class="fg"><label>Emoji Icon</label><input id="femoji" placeholder="e.g. 🔥 💎 ⚡" maxlength="4"></div>
+            <div class="fg"><label>Badge</label>
+              <select id="fbadge">
+                <option value="">No badge</option>
+                <option value="New">New</option>
+                <option value="Hot">Hot</option>
+                <option value="Sold">Sold Out</option>
+              </select>
+            </div>
+            <div class="fg"><label>Availability</label>
+              <select id="favail">
+                <option value="true">✅ Available</option>
+                <option value="false">❌ Unavailable</option>
+              </select>
+            </div>
+          </div>
+          <div class="frow">
+            <button class="fbtn" id="fsubmit" onclick="submitProduct()">Add Product</button>
+            <button class="fcancel" onclick="cancelEdit()">Cancel</button>
+            <span class="fmsg" id="fmsg">Saved!</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOG -->
+      <div class="pg" id="pg-log">
+        <p class="pg-title">Activity Log</p>
+        <p class="pg-sub">All actions tracked with timestamp</p>
+        <div class="tw alog" id="logList"></div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- NOTES MODAL -->
+<div class="overlay" id="noteOverlay" onclick="if(event.target===this)closeNotes()">
+  <div class="modal">
+    <p class="modal-title" id="noteTitle">Product Notes</p>
+    <div id="notesList"></div>
+    <textarea id="noteInput" placeholder="Add a note about this product..." rows="3" style="margin-top:1rem"></textarea>
+    <div class="mfoot">
+      <button class="fbtn" style="flex:1" onclick="addNote()">Save Note</button>
+      <button class="fcancel" onclick="closeNotes()">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+let TOKEN = '', editId = null, noteProductId = null;
+
+// ── LOGIN ────────────────────────────────────────────
+async function doLogin() {
+  const pass = document.getElementById('pinput').value;
+  try {
+    const r = await fetch('/api/admin/login', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pass})});
+    const d = await r.json();
+    if (d.ok) {
+      TOKEN = d.token;
+      document.getElementById('login').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      loadAll(); tick(); setInterval(tick, 10000);
+    } else {
+      document.getElementById('lerr').textContent = 'Wrong password.';
+    }
+  } catch { document.getElementById('lerr').textContent = 'Connection error.'; }
+}
+function logout() { TOKEN=''; location.reload(); }
+function tick() { document.getElementById('clock').textContent = new Date().toLocaleString(); }
+document.getElementById('pinput').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+
+// ── NAV ─────────────────────────────────────────────
+function nav(page) {
+  document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.sitem').forEach(s => s.classList.remove('on'));
+  document.getElementById('pg-' + page).classList.add('on');
+  const labels = {dash:'Dashboard',products:'Products',add:'Add',log:'Activity'};
+  document.querySelectorAll('.sitem').forEach(s => { if(s.textContent.trim().startsWith(labels[page]||'X')) s.classList.add('on'); });
+  if (page === 'log') loadLog();
+  if (page === 'products' || page === 'dash') loadAll();
+}
+
+// ── API ──────────────────────────────────────────────
+async function api(path, method='GET', body=null) {
+  const opts = {method, headers:{'Content-Type':'application/json','x-admin-token':TOKEN}};
+  if (body) opts.body = JSON.stringify(body);
+  const r = await fetch(path, opts);
+  return r.json();
+}
+
+// ── LOAD ─────────────────────────────────────────────
+async function loadAll() {
+  const prods = await api('/api/admin/products');
+  renderStats(prods);
+  renderDash(prods);
+  renderProds(prods);
+}
+
+function renderStats(p) {
+  const avail = p.filter(x=>x.available).length;
+  const prices = p.filter(x=>x.price>0).map(x=>x.price);
+  const avg = prices.length ? Math.round(prices.reduce((a,b)=>a+b,0)/prices.length) : 0;
+  document.getElementById('statsRow').innerHTML = `
+    <div class="stat"><div class="stat-l">Total Items</div><div class="stat-v g">${p.length}</div></div>
+    <div class="stat"><div class="stat-l">Available</div><div class="stat-v grn">${avail}</div></div>
+    <div class="stat"><div class="stat-l">Unavailable</div><div class="stat-v red">${p.length-avail}</div></div>
+    <div class="stat"><div class="stat-l">Avg Price</div><div class="stat-v">${avg?'$'+avg:'—'}</div></div>`;
+}
+
+function row(p, full) {
+  const av = p.available ? '<span class="chip chip-y">Available</span>' : '<span class="chip chip-n">Unavailable</span>';
+  const bd = p.badge ? `<span class="chip chip-${p.badge.toLowerCase()}">${p.badge}</span>` : '<span class="tmute">—</span>';
+  const pr = p.price===0 ? '<span class="tmute">Custom</span>' : `<span class="tprice">${p.price} ${p.currency}</span>`;
+  const btns = `<div class="acts">
+    <button class="ab ab-e" onclick="editProd('${p.id}')">Edit</button>
+    <button class="ab ab-c" onclick="openNotes('${p.id}','${p.name.replace(/'/g,"\\'")}')">Notes</button>
+    <button class="ab ab-d" onclick="delProd('${p.id}','${p.name.replace(/'/g,"\\'")}')">Delete</button>
+  </div>`;
+  if (full) return `<tr><td class="tname">${p.emoji||'📦'} ${p.name}</td><td class="tmute">${p.category}</td><td>${pr}</td><td>${bd}</td><td>${av}</td><td>${btns}</td></tr>`;
+  return `<tr><td class="tname">${p.emoji||'📦'} ${p.name}</td><td class="tmute">${p.category}</td><td>${pr}</td><td>${av}</td><td>${btns}</td></tr>`;
+}
+
+function renderDash(p) { document.getElementById('dashTbl').innerHTML = p.map(x=>row(x,false)).join('') || '<tr><td colspan="5" style="color:var(--t3);padding:2rem">No products yet.</td></tr>'; }
+function renderProds(p) { document.getElementById('prodTbl').innerHTML = p.map(x=>row(x,true)).join('') || '<tr><td colspan="6" style="color:var(--t3);padding:2rem">No products yet.</td></tr>'; }
+
+// ── ADD / EDIT ────────────────────────────────────────
+async function submitProduct() {
+  const body = {
+    name: document.getElementById('fn').value.trim(),
+    category: document.getElementById('fcat').value.trim(),
+    desc: document.getElementById('fdesc').value.trim(),
+    price: parseFloat(document.getElementById('fprice').value)||0,
+    currency: document.getElementById('fcur').value,
+    emoji: document.getElementById('femoji').value.trim()||'📦',
+    badge: document.getElementById('fbadge').value,
+    available: document.getElementById('favail').value==='true'
+  };
+  if (!body.name) { toast('Name is required','err'); return; }
+  if (editId) {
+    await api('/api/admin/products/'+editId,'PUT',body);
+    toast('Product updated ✓','ok');
+  } else {
+    await api('/api/admin/products','POST',body);
+    toast('Product added ✓','ok');
+  }
+  cancelEdit(); loadAll(); nav('products');
+}
+
+async function editProd(id) {
+  const p = (await api('/api/admin/products')).find(x=>x.id===id);
+  if (!p) return;
+  editId=id;
+  document.getElementById('ftitle').textContent='Edit Product';
+  document.getElementById('fsubmit').textContent='Save Changes';
+  document.getElementById('fn').value=p.name;
+  document.getElementById('fcat').value=p.category;
+  document.getElementById('fdesc').value=p.desc;
+  document.getElementById('fprice').value=p.price;
+  document.getElementById('fcur').value=p.currency;
+  document.getElementById('femoji').value=p.emoji||'';
+  document.getElementById('fbadge').value=p.badge||'';
+  document.getElementById('favail').value=String(p.available);
+  nav('add');
+}
+
+function cancelEdit() {
+  editId=null;
+  document.getElementById('ftitle').textContent='Add Product';
+  document.getElementById('fsubmit').textContent='Add Product';
+  ['fn','fcat','fdesc','fprice','femoji'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fbadge').value='';
+  document.getElementById('favail').value='true';
+}
+
+async function delProd(id, name) {
+  if (!confirm(`Delete "${name}"? Cannot be undone.`)) return;
+  await api('/api/admin/products/'+id,'DELETE');
+  toast('Deleted: '+name,'err');
+  loadAll();
+}
+
+// ── LOG ──────────────────────────────────────────────
+async function loadLog() {
+  const acts = await api('/api/admin/activities');
+  const icons = {ADD:['ico-add','＋'],EDIT:['ico-edit','✎'],DELETE:['ico-del','✕'],NOTE:['ico-note','📝']};
+  document.getElementById('logList').innerHTML = acts.length
+    ? acts.map(a => {
+        const [cls,ico] = icons[a.action]||['ico-edit','?'];
+        return `<div class="aitem"><div class="aico ${cls}">${ico}</div><div><div class="adet">${a.detail}</div><div class="ats">${new Date(a.ts).toLocaleString()} · ${a.ip}</div></div></div>`;
+      }).join('')
+    : '<div style="padding:2rem;color:var(--t3);font-size:.83rem">No activity yet.</div>';
+}
+
+// ── NOTES ────────────────────────────────────────────
+async function openNotes(pid, name) {
+  noteProductId = pid;
+  document.getElementById('noteTitle').textContent = 'Notes — '+name;
+  document.getElementById('noteOverlay').classList.add('open');
+  await refreshNotes();
+}
+function closeNotes() { document.getElementById('noteOverlay').classList.remove('open'); noteProductId=null; }
+
+async function refreshNotes() {
+  const r = await fetch('/api/comments/'+noteProductId);
+  const cmts = await r.json();
+  document.getElementById('notesList').innerHTML = cmts.length
+    ? cmts.map(c=>`<div class="citem"><div><div class="ctxt">${c.text}</div><div class="cts">${new Date(c.ts).toLocaleString()}</div></div><button class="cdel" onclick="delNote('${c.id}')">✕</button></div>`).join('')
+    : '<p style="color:var(--t3);font-size:.8rem;padding:.4rem 0">No notes yet.</p>';
+}
+
+async function addNote() {
+  const text = document.getElementById('noteInput').value.trim();
+  if (!text) return;
+  await api('/api/admin/comments','POST',{productId:noteProductId,text});
+  document.getElementById('noteInput').value='';
+  await refreshNotes();
+  toast('Note saved ✓','ok');
+}
+
+async function delNote(id) {
+  await api('/api/admin/comments/'+id,'DELETE');
+  await refreshNotes();
+}
+
+// ── TOAST ────────────────────────────────────────────
+function toast(msg, type='ok') {
+  const t = document.getElementById('toast');
+  t.textContent=msg; t.className='show '+type;
+  setTimeout(()=>t.className='',3000);
+}
+</script>
+</body>
+</html>
