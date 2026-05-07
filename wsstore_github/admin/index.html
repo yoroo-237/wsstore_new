@@ -46,7 +46,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
 
 .main{flex:1;padding:1.8rem;overflow-x:hidden}
 .pg{display:none}.pg.on{display:block}
-
 .pg-title{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--t1);margin-bottom:.25rem}
 .pg-sub{font-size:.8rem;color:var(--t3);margin-bottom:1.8rem}
 
@@ -59,7 +58,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-h
 
 /* TABLE */
 .tw{background:var(--s1);border:1px solid var(--bd);border-radius:12px;overflow:hidden;overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:.83rem;min-width:560px}
+table{width:100%;border-collapse:collapse;font-size:.83rem;min-width:600px}
 thead th{background:var(--s2);padding:9px 13px;text-align:left;font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);white-space:nowrap}
 tbody tr{border-top:1px solid var(--bd);transition:background .1s}
 tbody tr:hover{background:rgba(255,255,255,.02)}
@@ -73,6 +72,8 @@ td{padding:10px 13px;vertical-align:middle}
 .chip-new{background:rgba(201,168,76,.16);color:var(--gold)}
 .chip-hot{background:rgba(226,75,74,.14);color:var(--red)}
 .chip-sold{background:rgba(255,255,255,.08);color:var(--t3)}
+.thumb{width:38px;height:38px;border-radius:6px;object-fit:cover;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.thumb img{width:38px;height:38px;border-radius:6px;object-fit:cover}
 .acts{display:flex;gap:5px}
 .ab{font-size:.72rem;font-weight:500;padding:5px 11px;border-radius:6px;border:1px solid;cursor:pointer;font-family:inherit;transition:opacity .15s;background:transparent}
 .ab:hover{opacity:.72}
@@ -90,12 +91,32 @@ input,select,textarea{background:var(--s2);border:1px solid var(--bd);color:var(
 input:focus,select:focus,textarea:focus{border-color:var(--gold)}
 textarea{resize:vertical;min-height:68px}
 select option{background:var(--s2)}
+
+/* IMAGE UPLOAD */
+.img-upload-area{
+  border:2px dashed var(--bd);border-radius:10px;padding:1.5rem;
+  text-align:center;cursor:pointer;transition:border-color .2s,background .2s;
+  position:relative;min-height:140px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:8px;
+}
+.img-upload-area:hover{border-color:var(--gold);background:rgba(201,168,76,.04)}
+.img-upload-area.has-img{padding:.5rem;border-style:solid;border-color:var(--gold)}
+.img-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.img-preview{width:100%;max-height:200px;object-fit:cover;border-radius:7px;display:none}
+.img-preview.show{display:block}
+.img-placeholder{display:flex;flex-direction:column;align-items:center;gap:6px}
+.img-placeholder.hide{display:none}
+.img-icon{font-size:2rem;opacity:.4}
+.img-hint{font-size:.75rem;color:var(--t3);line-height:1.4}
+.img-hint strong{color:var(--gold)}
+.img-clear{position:absolute;top:8px;right:8px;background:var(--red);color:#fff;border:none;border-radius:50%;width:24px;height:24px;font-size:14px;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:2}
+.img-clear.show{display:flex}
+
 .frow{display:flex;gap:.75rem;align-items:center;margin-top:1.1rem;flex-wrap:wrap}
 .fbtn{background:var(--gold);color:#0e0e0e;font-size:.84rem;font-weight:600;padding:10px 22px;border-radius:7px;border:none;cursor:pointer;font-family:inherit;transition:background .2s}
 .fbtn:hover{background:var(--gold2)}
 .fcancel{background:none;border:1px solid var(--bd);color:var(--t3);font-size:.84rem;padding:10px 18px;border-radius:7px;cursor:pointer;font-family:inherit;transition:.2s}
 .fcancel:hover{border-color:var(--t3)}
-.fmsg{font-size:.78rem;color:var(--grn);display:none}
 
 /* ACTIVITY */
 .alog{display:flex;flex-direction:column}
@@ -144,7 +165,7 @@ select option{background:var(--s2)}
   </div>
 </div>
 
-<!-- APP SHELL -->
+<!-- APP -->
 <div id="app">
   <div class="topbar">
     <span class="topbar-logo">WS Admin</span>
@@ -170,7 +191,7 @@ select option{background:var(--s2)}
         <p class="pg-sub">Your store overview</p>
         <div class="stats" id="statsRow"></div>
         <div class="tw"><table>
-          <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead>
+          <thead><tr><th>Photo</th><th>Product</th><th>Category</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead>
           <tbody id="dashTbl"></tbody>
         </table></div>
       </div>
@@ -178,9 +199,9 @@ select option{background:var(--s2)}
       <!-- PRODUCTS -->
       <div class="pg" id="pg-products">
         <p class="pg-title">All Products</p>
-        <p class="pg-sub">Manage your menu</p>
+        <p class="pg-sub">Manage your full catalogue</p>
         <div class="tw"><table>
-          <thead><tr><th>Name</th><th>Category</th><th>Price</th><th>Badge</th><th>Status</th><th>Actions</th></tr></thead>
+          <thead><tr><th>Photo</th><th>Name</th><th>Category</th><th>Price</th><th>Badge</th><th>Status</th><th>Actions</th></tr></thead>
           <tbody id="prodTbl"></tbody>
         </table></div>
       </div>
@@ -188,13 +209,28 @@ select option{background:var(--s2)}
       <!-- ADD / EDIT -->
       <div class="pg" id="pg-add">
         <p class="pg-title" id="ftitle">Add Product</p>
-        <p class="pg-sub">Fill in the details below</p>
+        <p class="pg-sub">Fill in the details and upload a photo</p>
         <div class="fcard">
           <div class="fgrid">
-            <div class="fg"><label>Product Name</label><input id="fn" placeholder="e.g. Premium Pack A"></div>
-            <div class="fg"><label>Category</label><input id="fcat" placeholder="e.g. Featured, Express..."></div>
-            <div class="fg full"><label>Description</label><textarea id="fdesc" placeholder="Short description..."></textarea></div>
-            <div class="fg"><label>Price (0 = Custom)</label><input type="number" id="fprice" placeholder="e.g. 120" min="0"></div>
+
+            <!-- IMAGE UPLOAD -->
+            <div class="fg full">
+              <label>Product Photo</label>
+              <div class="img-upload-area" id="uploadArea">
+                <input type="file" id="imgFile" accept="image/*" onchange="handleImage(event)">
+                <div class="img-placeholder" id="imgPlaceholder">
+                  <div class="img-icon">📷</div>
+                  <div class="img-hint"><strong>Click to upload</strong> or drag & drop<br>JPG, PNG, WEBP — max 5MB</div>
+                </div>
+                <img id="imgPreview" class="img-preview" alt="Preview">
+                <button class="img-clear" id="imgClear" onclick="clearImage(event)" title="Remove photo">✕</button>
+              </div>
+            </div>
+
+            <div class="fg"><label>Product Name</label><input id="fn" placeholder="e.g. Oversized Black Hoodie"></div>
+            <div class="fg"><label>Category</label><input id="fcat" placeholder="e.g. Hoodies, Sneakers, Caps..."></div>
+            <div class="fg full"><label>Description</label><textarea id="fdesc" placeholder="Describe the item — material, fit, sizes available..."></textarea></div>
+            <div class="fg"><label>Price (0 = Custom)</label><input type="number" id="fprice" placeholder="e.g. 65" min="0"></div>
             <div class="fg"><label>Currency</label>
               <select id="fcur">
                 <option value="USD">USD — Dollar</option>
@@ -204,7 +240,6 @@ select option{background:var(--s2)}
                 <option value="GBP">GBP — Pound</option>
               </select>
             </div>
-            <div class="fg"><label>Emoji Icon</label><input id="femoji" placeholder="e.g. 🔥 💎 ⚡" maxlength="4"></div>
             <div class="fg"><label>Badge</label>
               <select id="fbadge">
                 <option value="">No badge</option>
@@ -223,7 +258,6 @@ select option{background:var(--s2)}
           <div class="frow">
             <button class="fbtn" id="fsubmit" onclick="submitProduct()">Add Product</button>
             <button class="fcancel" onclick="cancelEdit()">Cancel</button>
-            <span class="fmsg" id="fmsg">Saved!</span>
           </div>
         </div>
       </div>
@@ -231,7 +265,7 @@ select option{background:var(--s2)}
       <!-- LOG -->
       <div class="pg" id="pg-log">
         <p class="pg-title">Activity Log</p>
-        <p class="pg-sub">All actions tracked with timestamp</p>
+        <p class="pg-sub">Every action tracked with timestamp</p>
         <div class="tw alog" id="logList"></div>
       </div>
 
@@ -255,9 +289,9 @@ select option{background:var(--s2)}
 <div id="toast"></div>
 
 <script>
-let TOKEN = '', editId = null, noteProductId = null;
+let TOKEN = '', editId = null, noteProductId = null, currentImageB64 = '';
 
-// ── LOGIN ────────────────────────────────────────────
+// ── LOGIN ─────────────────────────────────────────────
 async function doLogin() {
   const pass = document.getElementById('pinput').value;
   try {
@@ -277,18 +311,59 @@ function logout() { TOKEN=''; location.reload(); }
 function tick() { document.getElementById('clock').textContent = new Date().toLocaleString(); }
 document.getElementById('pinput').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
 
-// ── NAV ─────────────────────────────────────────────
+// ── IMAGE HANDLING ─────────────────────────────────────
+function handleImage(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { toast('Image too large — max 5MB', 'err'); return; }
+  const reader = new FileReader();
+  reader.onload = ev => {
+    currentImageB64 = ev.target.result;
+    document.getElementById('imgPreview').src = currentImageB64;
+    document.getElementById('imgPreview').classList.add('show');
+    document.getElementById('imgPlaceholder').classList.add('hide');
+    document.getElementById('imgClear').classList.add('show');
+    document.getElementById('uploadArea').classList.add('has-img');
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearImage(e) {
+  e.preventDefault(); e.stopPropagation();
+  currentImageB64 = '';
+  document.getElementById('imgFile').value = '';
+  document.getElementById('imgPreview').src = '';
+  document.getElementById('imgPreview').classList.remove('show');
+  document.getElementById('imgPlaceholder').classList.remove('hide');
+  document.getElementById('imgClear').classList.remove('show');
+  document.getElementById('uploadArea').classList.remove('has-img');
+}
+
+function setImagePreview(src) {
+  if (src) {
+    currentImageB64 = src;
+    document.getElementById('imgPreview').src = src;
+    document.getElementById('imgPreview').classList.add('show');
+    document.getElementById('imgPlaceholder').classList.add('hide');
+    document.getElementById('imgClear').classList.add('show');
+    document.getElementById('uploadArea').classList.add('has-img');
+  } else {
+    clearImage({ preventDefault:()=>{}, stopPropagation:()=>{} });
+  }
+}
+
+// ── NAV ───────────────────────────────────────────────
 function nav(page) {
   document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
   document.querySelectorAll('.sitem').forEach(s => s.classList.remove('on'));
   document.getElementById('pg-' + page).classList.add('on');
-  const labels = {dash:'Dashboard',products:'Products',add:'Add',log:'Activity'};
-  document.querySelectorAll('.sitem').forEach(s => { if(s.textContent.trim().startsWith(labels[page]||'X')) s.classList.add('on'); });
+  const map = {dash:'Dashboard',products:'Products',add:'Add',log:'Activity'};
+  document.querySelectorAll('.sitem').forEach(s => { if(s.textContent.trim().startsWith(map[page]||'X')) s.classList.add('on'); });
   if (page === 'log') loadLog();
   if (page === 'products' || page === 'dash') loadAll();
 }
 
-// ── API ──────────────────────────────────────────────
+// ── API ───────────────────────────────────────────────
 async function api(path, method='GET', body=null) {
   const opts = {method, headers:{'Content-Type':'application/json','x-admin-token':TOKEN}};
   if (body) opts.body = JSON.stringify(body);
@@ -296,7 +371,7 @@ async function api(path, method='GET', body=null) {
   return r.json();
 }
 
-// ── LOAD ─────────────────────────────────────────────
+// ── LOAD ──────────────────────────────────────────────
 async function loadAll() {
   const prods = await api('/api/admin/products');
   renderStats(prods);
@@ -308,11 +383,17 @@ function renderStats(p) {
   const avail = p.filter(x=>x.available).length;
   const prices = p.filter(x=>x.price>0).map(x=>x.price);
   const avg = prices.length ? Math.round(prices.reduce((a,b)=>a+b,0)/prices.length) : 0;
+  const withImg = p.filter(x=>x.image).length;
   document.getElementById('statsRow').innerHTML = `
     <div class="stat"><div class="stat-l">Total Items</div><div class="stat-v g">${p.length}</div></div>
     <div class="stat"><div class="stat-l">Available</div><div class="stat-v grn">${avail}</div></div>
-    <div class="stat"><div class="stat-l">Unavailable</div><div class="stat-v red">${p.length-avail}</div></div>
+    <div class="stat"><div class="stat-l">With Photos</div><div class="stat-v">${withImg}</div></div>
     <div class="stat"><div class="stat-l">Avg Price</div><div class="stat-v">${avg?'$'+avg:'—'}</div></div>`;
+}
+
+function thumbCell(p) {
+  if (p.image) return `<td><img src="${p.image}" style="width:38px;height:38px;border-radius:6px;object-fit:cover"></td>`;
+  return `<td><div style="width:38px;height:38px;border-radius:6px;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:18px">👕</div></td>`;
 }
 
 function row(p, full) {
@@ -324,14 +405,14 @@ function row(p, full) {
     <button class="ab ab-c" onclick="openNotes('${p.id}','${p.name.replace(/'/g,"\\'")}')">Notes</button>
     <button class="ab ab-d" onclick="delProd('${p.id}','${p.name.replace(/'/g,"\\'")}')">Delete</button>
   </div>`;
-  if (full) return `<tr><td class="tname">${p.emoji||'📦'} ${p.name}</td><td class="tmute">${p.category}</td><td>${pr}</td><td>${bd}</td><td>${av}</td><td>${btns}</td></tr>`;
-  return `<tr><td class="tname">${p.emoji||'📦'} ${p.name}</td><td class="tmute">${p.category}</td><td>${pr}</td><td>${av}</td><td>${btns}</td></tr>`;
+  if (full) return `<tr>${thumbCell(p)}<td class="tname">${p.name}</td><td class="tmute">${p.category}</td><td>${pr}</td><td>${bd}</td><td>${av}</td><td>${btns}</td></tr>`;
+  return `<tr>${thumbCell(p)}<td class="tname">${p.name}</td><td class="tmute">${p.category}</td><td>${pr}</td><td>${av}</td><td>${btns}</td></tr>`;
 }
 
-function renderDash(p) { document.getElementById('dashTbl').innerHTML = p.map(x=>row(x,false)).join('') || '<tr><td colspan="5" style="color:var(--t3);padding:2rem">No products yet.</td></tr>'; }
-function renderProds(p) { document.getElementById('prodTbl').innerHTML = p.map(x=>row(x,true)).join('') || '<tr><td colspan="6" style="color:var(--t3);padding:2rem">No products yet.</td></tr>'; }
+function renderDash(p) { document.getElementById('dashTbl').innerHTML = p.map(x=>row(x,false)).join('') || '<tr><td colspan="6" style="color:var(--t3);padding:2rem">No products yet.</td></tr>'; }
+function renderProds(p) { document.getElementById('prodTbl').innerHTML = p.map(x=>row(x,true)).join('') || '<tr><td colspan="7" style="color:var(--t3);padding:2rem">No products yet.</td></tr>'; }
 
-// ── ADD / EDIT ────────────────────────────────────────
+// ── ADD / EDIT ─────────────────────────────────────────
 async function submitProduct() {
   const body = {
     name: document.getElementById('fn').value.trim(),
@@ -339,11 +420,11 @@ async function submitProduct() {
     desc: document.getElementById('fdesc').value.trim(),
     price: parseFloat(document.getElementById('fprice').value)||0,
     currency: document.getElementById('fcur').value,
-    emoji: document.getElementById('femoji').value.trim()||'📦',
     badge: document.getElementById('fbadge').value,
-    available: document.getElementById('favail').value==='true'
+    available: document.getElementById('favail').value==='true',
+    image: currentImageB64
   };
-  if (!body.name) { toast('Name is required','err'); return; }
+  if (!body.name) { toast('Product name is required','err'); return; }
   if (editId) {
     await api('/api/admin/products/'+editId,'PUT',body);
     toast('Product updated ✓','ok');
@@ -357,27 +438,28 @@ async function submitProduct() {
 async function editProd(id) {
   const p = (await api('/api/admin/products')).find(x=>x.id===id);
   if (!p) return;
-  editId=id;
-  document.getElementById('ftitle').textContent='Edit Product';
-  document.getElementById('fsubmit').textContent='Save Changes';
-  document.getElementById('fn').value=p.name;
-  document.getElementById('fcat').value=p.category;
-  document.getElementById('fdesc').value=p.desc;
-  document.getElementById('fprice').value=p.price;
-  document.getElementById('fcur').value=p.currency;
-  document.getElementById('femoji').value=p.emoji||'';
-  document.getElementById('fbadge').value=p.badge||'';
-  document.getElementById('favail').value=String(p.available);
+  editId = id;
+  document.getElementById('ftitle').textContent = 'Edit Product';
+  document.getElementById('fsubmit').textContent = 'Save Changes';
+  document.getElementById('fn').value = p.name;
+  document.getElementById('fcat').value = p.category;
+  document.getElementById('fdesc').value = p.desc;
+  document.getElementById('fprice').value = p.price;
+  document.getElementById('fcur').value = p.currency;
+  document.getElementById('fbadge').value = p.badge || '';
+  document.getElementById('favail').value = String(p.available);
+  setImagePreview(p.image || '');
   nav('add');
 }
 
 function cancelEdit() {
-  editId=null;
-  document.getElementById('ftitle').textContent='Add Product';
-  document.getElementById('fsubmit').textContent='Add Product';
-  ['fn','fcat','fdesc','fprice','femoji'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('fbadge').value='';
-  document.getElementById('favail').value='true';
+  editId = null;
+  document.getElementById('ftitle').textContent = 'Add Product';
+  document.getElementById('fsubmit').textContent = 'Add Product';
+  ['fn','fcat','fdesc','fprice'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('fbadge').value = '';
+  document.getElementById('favail').value = 'true';
+  clearImage({ preventDefault:()=>{}, stopPropagation:()=>{} });
 }
 
 async function delProd(id, name) {
@@ -387,7 +469,7 @@ async function delProd(id, name) {
   loadAll();
 }
 
-// ── LOG ──────────────────────────────────────────────
+// ── LOG ───────────────────────────────────────────────
 async function loadLog() {
   const acts = await api('/api/admin/activities');
   const icons = {ADD:['ico-add','＋'],EDIT:['ico-edit','✎'],DELETE:['ico-del','✕'],NOTE:['ico-note','📝']};
@@ -399,7 +481,7 @@ async function loadLog() {
     : '<div style="padding:2rem;color:var(--t3);font-size:.83rem">No activity yet.</div>';
 }
 
-// ── NOTES ────────────────────────────────────────────
+// ── NOTES ─────────────────────────────────────────────
 async function openNotes(pid, name) {
   noteProductId = pid;
   document.getElementById('noteTitle').textContent = 'Notes — '+name;
@@ -430,7 +512,7 @@ async function delNote(id) {
   await refreshNotes();
 }
 
-// ── TOAST ────────────────────────────────────────────
+// ── TOAST ─────────────────────────────────────────────
 function toast(msg, type='ok') {
   const t = document.getElementById('toast');
   t.textContent=msg; t.className='show '+type;
