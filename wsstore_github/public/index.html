@@ -3,124 +3,115 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WS Store — Official Shop</title>
+<title>WS Store — Fashion</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --black: #0e0e0e; --white: #f8f5ef; --gold: #c9a84c; --gold-l: #e8d08a;
-  --gray: #888; --light: #f0ece3; --card: #ffffff; --border: #e0dbd0;
-  --tg: #229ED9; --red: #e24b4a; --green: #3a7d44;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#0e0e0e;--white:#f8f5ef;--gold:#c9a84c;--gold-l:#e8d08a;
+  --gray:#888;--light:#f0ece3;--card:#ffffff;--border:#e0dbd0;
+  --tg:#229ED9;--red:#e24b4a;
 }
-html { scroll-behavior: smooth; }
-body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--black); overflow-x: hidden; }
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--black);overflow-x:hidden}
 
-/* NAV */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 5%; height: 62px;
-  background: rgba(248,245,239,0.94); backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 5%;height:62px;
+  background:rgba(248,245,239,.94);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
 }
-.logo { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--black); text-decoration: none; letter-spacing: 0.01em; }
-.nav-links { display: flex; gap: 2.2rem; list-style: none; }
-.nav-links a { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--black); text-decoration: none; transition: color .2s; }
-.nav-links a:hover { color: var(--gold); }
-.nav-tg { display: flex; align-items: center; gap: 7px; background: var(--tg); color: #fff; font-size: 0.8rem; font-weight: 500; padding: 8px 18px; border-radius: 6px; text-decoration: none; transition: opacity .2s; white-space: nowrap; }
-.nav-tg:hover { opacity: .85; }
-.nav-tg svg { width: 15px; height: 15px; fill: #fff; flex-shrink: 0; }
-.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
-.hamburger span { display: block; width: 22px; height: 2px; background: var(--black); border-radius: 2px; }
+.logo{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--black);text-decoration:none}
+.nav-links{display:flex;gap:2.2rem;list-style:none}
+.nav-links a{font-size:.8rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--black);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-tg{display:flex;align-items:center;gap:7px;background:var(--tg);color:#fff;font-size:.8rem;font-weight:500;padding:8px 18px;border-radius:6px;text-decoration:none;transition:opacity .2s;white-space:nowrap}
+.nav-tg:hover{opacity:.85}
+.nav-tg svg{width:15px;height:15px;fill:#fff;flex-shrink:0}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hamburger span{display:block;width:22px;height:2px;background:var(--black);border-radius:2px}
 
-/* HERO */
-.hero {
-  min-height: 100vh; display: flex; align-items: center; justify-content: center;
-  text-align: center; padding: 110px 5% 70px;
-  background: linear-gradient(160deg, #0e0e0e 0%, #1a1612 55%, #2a2218 100%);
-  position: relative; overflow: hidden;
+.hero{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:110px 5% 70px;
+  background:linear-gradient(160deg,#0e0e0e 0%,#1a1612 55%,#2a2218 100%);
+  position:relative;overflow:hidden;
 }
-.hero::before {
-  content: ''; position: absolute; inset: 0;
-  background: radial-gradient(ellipse 75% 60% at 50% 38%, rgba(201,168,76,.14) 0%, transparent 70%);
-}
-.hero-inner { position: relative; max-width: 700px; }
-.hero-tag {
-  display: inline-block; font-size: 0.68rem; font-weight: 500; letter-spacing: .18em;
-  text-transform: uppercase; color: var(--gold); border: 1px solid rgba(201,168,76,.4);
-  padding: 5px 14px; border-radius: 20px; margin-bottom: 1.6rem;
-}
-.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem,7vw,5.2rem); font-weight: 700; color: #f8f5ef; line-height: 1.08; margin-bottom: 1.2rem; }
-.hero h1 em { font-style: normal; color: var(--gold); }
-.hero p { font-size: 1.05rem; color: rgba(248,245,239,.62); line-height: 1.72; margin-bottom: 2.5rem; font-weight: 300; max-width: 520px; margin-left: auto; margin-right: auto; }
-.hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-.btn-gold { background: var(--gold); color: var(--black); font-size: .85rem; font-weight: 500; padding: 14px 30px; border-radius: 6px; text-decoration: none; transition: background .2s, transform .15s; }
-.btn-gold:hover { background: var(--gold-l); transform: translateY(-2px); }
-.btn-ghost { background: transparent; color: #f8f5ef; font-size: .85rem; font-weight: 500; padding: 13px 28px; border-radius: 6px; border: 1px solid rgba(248,245,239,.3); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: border-color .2s, transform .15s; }
-.btn-ghost:hover { border-color: rgba(248,245,239,.7); transform: translateY(-2px); }
-.btn-ghost svg { width: 17px; height: 17px; fill: currentColor; flex-shrink: 0; }
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 75% 60% at 50% 38%,rgba(201,168,76,.14) 0%,transparent 70%)}
+.hero-inner{position:relative;max-width:700px}
+.hero-tag{display:inline-block;font-size:.68rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,.4);padding:5px 14px;border-radius:20px;margin-bottom:1.6rem}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,7vw,5.2rem);font-weight:700;color:#f8f5ef;line-height:1.08;margin-bottom:1.2rem}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero p{font-size:1.05rem;color:rgba(248,245,239,.62);line-height:1.72;margin-bottom:2.5rem;font-weight:300;max-width:520px;margin-left:auto;margin-right:auto}
+.hero-ctas{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-gold{background:var(--gold);color:var(--black);font-size:.85rem;font-weight:500;padding:14px 30px;border-radius:6px;text-decoration:none;transition:background .2s,transform .15s}
+.btn-gold:hover{background:var(--gold-l);transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:#f8f5ef;font-size:.85rem;font-weight:500;padding:13px 28px;border-radius:6px;border:1px solid rgba(248,245,239,.3);text-decoration:none;display:flex;align-items:center;gap:8px;transition:border-color .2s,transform .15s}
+.btn-ghost:hover{border-color:rgba(248,245,239,.7);transform:translateY(-2px)}
+.btn-ghost svg{width:17px;height:17px;fill:currentColor;flex-shrink:0}
 
-/* SECTION */
-section { padding: 80px 5%; }
-.s-label { font-size: .68rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-bottom: .4rem; }
-.s-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem,4vw,2.7rem); font-weight: 600; line-height: 1.2; margin-bottom: .5rem; }
-.s-sub { font-size: .92rem; color: var(--gray); line-height: 1.65; font-weight: 300; max-width: 500px; }
-.s-head { margin-bottom: 2.8rem; }
+section{padding:80px 5%}
+.s-label{font-size:.68rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
+.s-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.7rem);font-weight:600;line-height:1.2;margin-bottom:.5rem}
+.s-sub{font-size:.92rem;color:var(--gray);line-height:1.65;font-weight:300;max-width:500px}
+.s-head{margin-bottom:2.8rem}
 
-/* MENU */
-#menu { background: var(--light); }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(272px, 1fr)); gap: 1.4rem; }
-.pcard { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: transform .2s, box-shadow .2s; }
-.pcard:hover { transform: translateY(-5px); box-shadow: 0 14px 36px rgba(0,0,0,.1); }
-.pcard-img { width: 100%; aspect-ratio: 4/3; background: #ede9e0; display: flex; align-items: center; justify-content: center; font-size: 3.2rem; position: relative; }
-.pcard-img.dim { filter: grayscale(.55) opacity(.7); }
-.pbadge { position: absolute; top: 11px; left: 11px; font-size: .62rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; padding: 3px 9px; border-radius: 20px; }
-.pbadge-new { background: var(--gold); color: var(--black); }
-.pbadge-hot { background: var(--red); color: #fff; }
-.pbadge-sold { background: #555; color: #fff; }
-.pcard-body { padding: 1.1rem 1.3rem 1.3rem; }
-.pcat { font-size: .68rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); margin-bottom: 3px; }
-.pname { font-family: 'Playfair Display', serif; font-size: 1.08rem; font-weight: 600; line-height: 1.3; margin-bottom: 6px; }
-.pdesc { font-size: .8rem; color: var(--gray); line-height: 1.55; margin-bottom: 14px; font-weight: 300; }
-.pfoot { display: flex; align-items: center; justify-content: space-between; }
-.pprice { font-size: 1.12rem; font-weight: 600; }
-.pprice small { font-size: .72rem; font-weight: 400; color: var(--gray); }
-.btn-order { background: var(--black); color: var(--white); font-size: .76rem; font-weight: 500; padding: 9px 16px; border-radius: 6px; text-decoration: none; transition: background .2s; white-space: nowrap; }
-.btn-order:hover { background: #333; }
-.btn-order.off { background: #bbb; cursor: not-allowed; pointer-events: none; }
+#menu{background:var(--light)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:1.4rem}
 
-/* SKELETON */
-.skel { background: var(--border); border-radius: 14px; height: 310px; animation: shimmer 1.5s infinite; background: linear-gradient(90deg,#e8e3d8 25%,#f0ece3 50%,#e8e3d8 75%); background-size: 200% 100%; }
-@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+.pcard{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.pcard:hover{transform:translateY(-5px);box-shadow:0 14px 36px rgba(0,0,0,.1)}
 
-/* HOW */
-#how { background: var(--white); }
-.how-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 2.2rem; }
-.how-step {}
-.how-num { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 700; color: var(--gold); opacity: .45; line-height: 1; margin-bottom: .7rem; }
-.how-step h3 { font-size: .97rem; font-weight: 500; margin-bottom: .4rem; }
-.how-step p { font-size: .83rem; color: var(--gray); line-height: 1.6; font-weight: 300; }
+/* Product image — real photo or fallback */
+.pcard-img{width:100%;aspect-ratio:4/3;position:relative;overflow:hidden;background:#ede9e0}
+.pcard-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.pcard:hover .pcard-img img{transform:scale(1.04)}
+.pcard-img.dim{filter:grayscale(.55) opacity(.7)}
+.pcard-img.no-photo{display:flex;align-items:center;justify-content:center;font-size:3.5rem}
 
-/* CTA */
-#cta { background: var(--black); text-align: center; padding: 110px 5%; }
-#cta .s-title { color: #f8f5ef; margin-bottom: .8rem; }
-#cta .s-sub { color: rgba(248,245,239,.45); margin: 0 auto 2.6rem; }
-.tg-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--tg); color: #fff; font-size: 1rem; font-weight: 500; padding: 17px 38px; border-radius: 9px; text-decoration: none; transition: opacity .2s, transform .15s; }
-.tg-btn:hover { opacity: .88; transform: translateY(-2px); }
-.tg-btn svg { width: 22px; height: 22px; fill: #fff; }
-.tg-hint { font-size: .8rem; color: rgba(248,245,239,.3); margin-top: .9rem; display: block; }
+.pbadge{position:absolute;top:11px;left:11px;font-size:.62rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 9px;border-radius:20px;z-index:1}
+.pbadge-new{background:var(--gold);color:var(--black)}
+.pbadge-hot{background:var(--red);color:#fff}
+.pbadge-sold{background:#555;color:#fff}
 
-/* FOOTER */
-footer { background: #080808; text-align: center; padding: 26px 5%; font-size: .76rem; color: rgba(248,245,239,.28); }
-footer a { color: var(--gold); text-decoration: none; }
+.pcard-body{padding:1.1rem 1.3rem 1.3rem}
+.pcat{font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.pname{font-family:'Playfair Display',serif;font-size:1.08rem;font-weight:600;line-height:1.3;margin-bottom:6px}
+.pdesc{font-size:.8rem;color:var(--gray);line-height:1.55;margin-bottom:14px;font-weight:300}
+.pfoot{display:flex;align-items:center;justify-content:space-between}
+.pprice{font-size:1.12rem;font-weight:600}
+.pprice small{font-size:.72rem;font-weight:400;color:var(--gray)}
+.btn-order{background:var(--black);color:var(--white);font-size:.76rem;font-weight:500;padding:9px 16px;border-radius:6px;text-decoration:none;transition:background .2s;white-space:nowrap}
+.btn-order:hover{background:#333}
+.btn-order.off{background:#bbb;cursor:not-allowed;pointer-events:none}
 
-/* MOBILE */
-@media (max-width: 640px) {
-  .nav-links { display: none; }
-  .hamburger { display: flex; }
-  .nav-links.open { display: flex; flex-direction: column; position: fixed; top: 62px; left: 0; right: 0; background: rgba(248,245,239,.98); padding: 1.5rem 5%; border-bottom: 1px solid var(--border); gap: 1.3rem; z-index: 99; }
-  .hero-ctas { flex-direction: column; align-items: center; }
+.skel{background:var(--border);border-radius:14px;height:360px;animation:shimmer 1.5s infinite;background:linear-gradient(90deg,#e8e3d8 25%,#f0ece3 50%,#e8e3d8 75%);background-size:200% 100%}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+#how{background:var(--white)}
+.how-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2.2rem}
+.how-num{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;color:var(--gold);opacity:.45;line-height:1;margin-bottom:.7rem}
+.how-step h3{font-size:.97rem;font-weight:500;margin-bottom:.4rem}
+.how-step p{font-size:.83rem;color:var(--gray);line-height:1.6;font-weight:300}
+
+#cta{background:var(--black);text-align:center;padding:110px 5%}
+#cta .s-title{color:#f8f5ef;margin-bottom:.8rem}
+#cta .s-sub{color:rgba(248,245,239,.45);margin:0 auto 2.6rem}
+.tg-btn{display:inline-flex;align-items:center;gap:10px;background:var(--tg);color:#fff;font-size:1rem;font-weight:500;padding:17px 38px;border-radius:9px;text-decoration:none;transition:opacity .2s,transform .15s}
+.tg-btn:hover{opacity:.88;transform:translateY(-2px)}
+.tg-btn svg{width:22px;height:22px;fill:#fff}
+.tg-hint{font-size:.8rem;color:rgba(248,245,239,.3);margin-top:.9rem;display:block}
+
+footer{background:#080808;text-align:center;padding:26px 5%;font-size:.76rem;color:rgba(248,245,239,.28)}
+footer a{color:var(--gold);text-decoration:none}
+
+@media(max-width:640px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .nav-links.open{display:flex;flex-direction:column;position:fixed;top:62px;left:0;right:0;background:rgba(248,245,239,.98);padding:1.5rem 5%;border-bottom:1px solid var(--border);gap:1.3rem;z-index:99}
+  .hero-ctas{flex-direction:column;align-items:center}
 }
 </style>
 </head>
@@ -137,16 +128,16 @@ footer a { color: var(--gold); text-decoration: none; }
     <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/></svg>
     Order Now
   </a>
-  <button class="hamburger" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
+  <button class="hamburger" id="ham"><span></span><span></span><span></span></button>
 </nav>
 
 <section class="hero">
   <div class="hero-inner">
-    <div class="hero-tag">Official Distro Store</div>
-    <h1>Premium products,<br><em>straight to you.</em></h1>
-    <p>Browse our full menu, check availability and prices, then message us on Telegram to place your order — fast and secure.</p>
+    <div class="hero-tag">Official Fashion Store</div>
+    <h1>Wear it<br><em>different.</em></h1>
+    <p>Browse our exclusive drops. Message us on Telegram to place your order — fast, direct, no middleman.</p>
     <div class="hero-ctas">
-      <a href="#menu" class="btn-gold">Browse Menu</a>
+      <a href="#menu" class="btn-gold">Browse Collection</a>
       <a href="https://t.me/williamshatnerDm" target="_blank" class="btn-ghost">
         <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/></svg>
         @williamshatnerDm
@@ -157,9 +148,9 @@ footer a { color: var(--gold); text-decoration: none; }
 
 <section id="menu">
   <div class="s-head">
-    <p class="s-label">What we offer</p>
-    <h2 class="s-title">Our Menu</h2>
-    <p class="s-sub">All items available for direct order. Tap "Order Now" to message us instantly on Telegram.</p>
+    <p class="s-label">Latest drops</p>
+    <h2 class="s-title">The Collection</h2>
+    <p class="s-sub">All items available for direct order. Tap "Order Now" to message us on Telegram.</p>
   </div>
   <div class="grid" id="menuGrid">
     <div class="skel"></div><div class="skel"></div><div class="skel"></div>
@@ -170,19 +161,19 @@ footer a { color: var(--gold); text-decoration: none; }
   <div class="s-head">
     <p class="s-label">Simple process</p>
     <h2 class="s-title">How to order</h2>
-    <p class="s-sub">Three steps and you're done.</p>
+    <p class="s-sub">Three steps and it's yours.</p>
   </div>
   <div class="how-grid">
-    <div class="how-step"><div class="how-num">01</div><h3>Browse the menu</h3><p>Check all items, prices, and availability. Updated in real time.</p></div>
-    <div class="how-step"><div class="how-num">02</div><h3>Message on Telegram</h3><p>Tap "Order Now" on any item or reach us at <strong>@williamshatnerDm</strong>.</p></div>
-    <div class="how-step"><div class="how-num">03</div><h3>Confirm & receive</h3><p>We confirm, you pay, we deliver. Fast, reliable, every time.</p></div>
+    <div class="how-step"><div class="how-num">01</div><h3>Browse the collection</h3><p>Check all items, prices, and availability. New drops added regularly.</p></div>
+    <div class="how-step"><div class="how-num">02</div><h3>Message on Telegram</h3><p>Tap "Order Now" on any item or reach us directly at <strong>@williamshatnerDm</strong>.</p></div>
+    <div class="how-step"><div class="how-num">03</div><h3>Confirm & receive</h3><p>We confirm your order, handle payment, and deliver to you fast.</p></div>
   </div>
 </section>
 
 <section id="cta">
   <p class="s-label" style="color:rgba(201,168,76,.65)">Ready to order?</p>
   <h2 class="s-title">Message us now</h2>
-  <p class="s-sub">We reply fast. Reach us directly on Telegram to start your order or ask any question.</p>
+  <p class="s-sub">We reply fast. Send us a message on Telegram to place your order or ask any questions.</p>
   <a href="https://t.me/williamshatnerDm" target="_blank" class="tg-btn">
     <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/></svg>
     Message @williamshatnerDm
@@ -195,8 +186,6 @@ footer a { color: var(--gold); text-decoration: none; }
 </footer>
 
 <script>
-const EMOJIS=['🌟','💎','⚡','🏆','📦','🎁','🔥','✨','💼','🎯','🥇','🎪'];
-
 async function loadMenu() {
   try {
     const res = await fetch('/api/products');
@@ -206,15 +195,17 @@ async function loadMenu() {
       grid.innerHTML = '<p style="color:var(--gray);padding:1rem 0;grid-column:1/-1">No items yet — check back soon.</p>';
       return;
     }
-    grid.innerHTML = items.map((p, i) => {
-      const emoji = p.emoji || EMOJIS[i % EMOJIS.length];
+    grid.innerHTML = items.map(p => {
       const badge = p.badge ? `<span class="pbadge pbadge-${p.badge.toLowerCase()}">${p.badge}</span>` : '';
-      const price = p.price === 0 ? 'Custom' : `${p.price} <small>${p.currency}</small>`;
+      const imgHtml = p.image
+        ? `<div class="pcard-img${p.available?'':' dim'}"><img src="${p.image}" alt="${p.name}" loading="lazy">${badge}</div>`
+        : `<div class="pcard-img no-photo${p.available?'':' dim'}">👕${badge}</div>`;
+      const price = p.price===0 ? 'Custom' : `${p.price} <small>${p.currency}</small>`;
       const btn = p.available
-        ? `<a href="https://t.me/williamshatnerDm?text=${encodeURIComponent('Hi, I want to order: ' + p.name)}" target="_blank" class="btn-order">Order →</a>`
+        ? `<a href="https://t.me/williamshatnerDm?text=${encodeURIComponent('Hi, I want to order: '+p.name)}" target="_blank" class="btn-order">Order →</a>`
         : `<span class="btn-order off">Unavailable</span>`;
       return `<div class="pcard">
-        <div class="pcard-img${p.available ? '' : ' dim'}">${emoji}${badge}</div>
+        ${imgHtml}
         <div class="pcard-body">
           <p class="pcat">${p.category}</p>
           <h3 class="pname">${p.name}</h3>
@@ -224,7 +215,7 @@ async function loadMenu() {
       </div>`;
     }).join('');
   } catch {
-    document.getElementById('menuGrid').innerHTML = '<p style="color:var(--gray);grid-column:1/-1">Could not load menu. Please refresh.</p>';
+    document.getElementById('menuGrid').innerHTML = '<p style="color:var(--gray);grid-column:1/-1">Could not load items. Please refresh.</p>';
   }
 }
 
